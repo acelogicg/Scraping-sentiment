@@ -47,6 +47,38 @@ RestartSec=5
 
 [Install]
 WantedBy=multi-user.target
+
+Buat service systemd
+cat >/etc/systemd/system/news-sentiment.service <<'EOF'
+isi dengan 
+
+[Unit]
+Description=News Sentiment REST API
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/opt/news-sentiment
+Environment="PATH=/opt/news-sentiment/venv/bin"
+Environment="HF_HOME=/opt/news-sentiment/hf-cache"
+Environment="HF_HUB_DISABLE_TELEMETRY=1"
+# pre-warm model agar tidak timeout di request pertama
+ExecStartPre=/opt/news-sentiment/venv/bin/python -c "from transformers import AutoTokenizer,AutoModelForSequenceClassification; m='cardiffnlp/twitter-xlm-roberta-base-sentiment'; AutoTokenizer.from_pretrained(m, use_fast=False); AutoModelForSequenceClassification.from_pretrained(m)"
+ExecStart=/opt/news-sentiment/venv/bin/uvicorn app.server:app --host 0.0.0.0 --port 8000 --workers 2
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+mkdir -p /opt/news-sentiment/hf-cache
+chown -R www-data:www-data /opt/news-sentiment
+
+ufw allow 8000/tcp
+ufw status
+
 ```
 
 Enable:
