@@ -60,3 +60,13 @@ sudo systemctl status news-sentiment --no-pager
 ## Notes
 - CPU only. No CUDA needed.
 - Tokenizer uses `use_fast=False` to avoid `tiktoken` dependency.
+
+
+Ringkas pakai:
+
+unzip news-sentiment.zip -d /opt/
+cd /opt/news-sentiment && python3 -m venv venv && source venv/bin/activate
+pip install --upgrade pip setuptools wheel && pip install -r requirements.txt
+Tes: uvicorn app.server:app --host 0.0.0.0 --port 8000
+Systemd: salin news-sentiment.service ke /etc/systemd/system/, lalu sudo systemctl enable --now news-sentiment. 
+
