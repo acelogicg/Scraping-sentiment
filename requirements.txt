@@ -1,0 +1,9 @@
+pandas
+beautifulsoup4
+requests
+textblob
+lxml
+transformers
+torch
+sentencepiece
+protobuf
