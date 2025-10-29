@@ -1,7 +1,8 @@
+fastapi
+uvicorn[standard]
 pandas
 beautifulsoup4
 requests
-textblob
 lxml
 transformers
 torch
