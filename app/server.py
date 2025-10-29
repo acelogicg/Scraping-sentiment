@@ -19,7 +19,7 @@ app = FastAPI(title="News Sentiment API", version="1.0.0")
 
 class AnalyzeRequest(BaseModel):
     query: str = Field(..., min_length=1, description="Kata kunci pencarian berita")
-    max_results: int = Field(10, ge=1, le=50, description="Jumlah berita")
+    max_results: int = Field(10, ge=1, le=500, description="Jumlah berita")
 
 class ArticleOut(BaseModel):
     title: str
